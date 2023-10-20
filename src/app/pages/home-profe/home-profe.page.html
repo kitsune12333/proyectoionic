@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-button color="success" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-button>
+    <ion-title>Bienvenido</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-list color="success">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg4.wikia.nocookie.net%2F__cb20141128122009%2Fmushokutensei%2Fimages%2F5%2F50%2FManga_Paul.jpg&f=1&nofb=1&ipt=1d9eaad69acb72f70bd9514c5aa914a05a4e84b782c1b39fe1ae62bffa8c4c1c&ipo=images" alt="">
+    </ion-avatar>
+    <ion-label>
+      <h1>paul greyrat</h1>
+      <h3>notienexd@gmail.com</h3>
+      <p>profesor</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Asistencia</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-icon name="hourglass-outline" slot="start" color="warning"></ion-icon>
+      <ion-label>
+        presente
+        <p>22/10/2023</p>
+      </ion-label>
+    </ion-item>
+    <ion-button color="success" fill="clear" size="full" (click)="lista()">ver todo</ion-button>
+  </ion-card-content>
+</ion-card>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+<ion-fab-button color="success">
+  <ion-icon name="add" (click)="asistencia()"></ion-icon>
+</ion-fab-button>
+</ion-fab>
+</ion-content>

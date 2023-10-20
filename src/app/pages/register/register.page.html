@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-button color="success" slot="start">
+      <ion-back-button title=""></ion-back-button>
+    </ion-button>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">nombre de usuario</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">contraseña</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">confirme contraseña</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">correo</ion-label>
+        <ion-input type="email" placeholder="usuario@ejemplo.com"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">telefono</ion-label>
+        <ion-input type="tel" placeholder="+56"></ion-input>
+      </ion-item>
+      <ion-title>tipo de usuario</ion-title>
+      <ion-item>
+        <ion-radio-group>
+          <ion-item>
+            <ion-label>profesor</ion-label>
+            <ion-radio value="profesor" slot="start"></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>alumno</ion-label>
+            <ion-radio value="alumno" slot="start"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">nombre</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Carrera</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-button size="full" color="light" (click)="register()">Registrar</ion-button>
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-button color="success" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-button>
+    <ion-title>Bienvenido</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-list color="success">
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
+    </ion-avatar>
+    <ion-label>
+      <h1>benjamin salas</h1>
+      <h3>benjabox1@gmail.com</h3>
+      <p>alumno</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Asistencia</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-icon name="hourglass-outline" slot="start" color="warning"></ion-icon>
+      <ion-label>
+        presente
+        <p>22/10/2023</p>
+      </ion-label>
+    </ion-item>
+    <ion-button color="success" fill="clear" size="full" (click)="miAsistencia()">ver todo</ion-button>
+  </ion-card-content>
+</ion-card>
+</ion-content>
