@@ -19,10 +19,10 @@ export class HomePage implements OnInit {
   userInfoReceived: Observable<UserModel>;
   idUserHtmlRouterLink: any;
 
-  constructor(private router: Router, private _userService: UserService) {
+  constructor(private router: Router, private _usuarioService: UserService) {
     const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(userId);
-    this.userInfoReceived = this._userService.getUser(userId);
+    this.userInfoReceived = this._usuarioService.getUser(userId);
    }
 
   ngOnInit() {

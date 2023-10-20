@@ -1,13 +1,11 @@
-import { TypeUser } from "./Type_user"
-
 export interface UserModel {
 
     id: string;
     username: string;
     password: string;
     correo: string;
-    phone: string;
-    type: TypeUser;
+    telefono: string;
+    tipoUsuario: string;
     nombre: string;
     tipoCarrera: string;
 }

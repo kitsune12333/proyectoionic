@@ -41,14 +41,14 @@ export class LoginPage implements OnInit, OnDestroy {
 
   }
 
-  async setObject(user: UserModel) {
-    await Preferences.set({
+  setObject(user: UserModel) {
+   Preferences.set({
       key: 'user',
       value: JSON.stringify(user)
     });
   }
 
-  async Login(userLoginInfo: IUserLogin) {
+  login(userLoginInfo: IUserLogin) {
     this._usuarioService.getLoginUser(userLoginInfo.correo, userLoginInfo.password).subscribe(
       {
         next: (user) => {

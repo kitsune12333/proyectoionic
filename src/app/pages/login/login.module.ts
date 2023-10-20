@@ -13,7 +13,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
     FormsModule,
     IonicModule,
     LoginPageRoutingModule
-  ],
+  ]
   
 })
 export class LoginPageModule {}

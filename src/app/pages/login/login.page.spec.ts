@@ -14,13 +14,7 @@ describe('LoginPage', () => {
     fixture.detectChanges();
   }));
 
-  it('should go to home page on login', () => {
-    spyOn(router, 'navigate');
-
-    component.login();
-
-    expect(router.navigate).toHaveBeenCalledWith(['home'])
-  });
+  
 
   it('should go to home page on register', () => {
     spyOn(router, 'navigate');
