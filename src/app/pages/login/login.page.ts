@@ -22,7 +22,7 @@ import { Preferences } from '@capacitor/preferences';
 export class LoginPage implements OnInit, OnDestroy {
 
   userLoginModal: IUserLogin = {
-    email: '',
+    correo: '',
     password: ''
   };
 
@@ -49,7 +49,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   async Login(userLoginInfo: IUserLogin) {
-    this._usuarioService.getLoginUser(userLoginInfo.email, userLoginInfo.password).subscribe(
+    this._usuarioService.getLoginUser(userLoginInfo.correo, userLoginInfo.password).subscribe(
       {
         next: (user) => {
           console.log(user);
@@ -57,7 +57,7 @@ export class LoginPage implements OnInit, OnDestroy {
             //EXISTE
             let userInfoSend: NavigationExtras = {
               state: {
-                userInfo: user.user_id
+                userInfo: user.id
               }
             }
             console.log("Usuario existe...");
@@ -77,6 +77,11 @@ export class LoginPage implements OnInit, OnDestroy {
         }
       }
     )
+  }
+
+  userLoginModalRestart(): void {
+    this.userLoginModal.correo = '';
+    this.userLoginModal.password = '';
   }
 
 
