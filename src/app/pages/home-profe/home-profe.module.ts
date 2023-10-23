@@ -14,7 +14,6 @@ import { HomeProfePage } from './home-profe.page';
     FormsModule,
     IonicModule,
     HomeProfePageRoutingModule
-  ],
-  declarations: [HomeProfePage]
+  ]
 })
 export class HomeProfePageModule {}

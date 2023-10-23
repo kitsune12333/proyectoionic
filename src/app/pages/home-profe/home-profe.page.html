@@ -7,15 +7,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-<ion-list color="warning">
+<ion-list color="warning" [inset]="true" *ngIf="userInfoReceived | async as ch">
   <ion-item>
     <ion-avatar slot="start">
       <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg4.wikia.nocookie.net%2F__cb20141128122009%2Fmushokutensei%2Fimages%2F5%2F50%2FManga_Paul.jpg&f=1&nofb=1&ipt=1d9eaad69acb72f70bd9514c5aa914a05a4e84b782c1b39fe1ae62bffa8c4c1c&ipo=images" alt="">
     </ion-avatar>
     <ion-label>
-      <h1>paul greyrat</h1>
-      <h3>notienexd@gmail.com</h3>
-      <p>profesor</p>
+      <h1>{{ ch.username }}</h1>
+      <h3>{{ ch.correo }}</h3>
+      <p>{{ ch.tipoUsuario }}</p>
     </ion-label>
   </ion-item>
 </ion-list>

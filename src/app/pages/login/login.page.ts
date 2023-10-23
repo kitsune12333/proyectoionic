@@ -26,9 +26,7 @@ export class LoginPage implements OnInit, OnDestroy {
     password: ''
   };
 
-  public userExists?: UserModel;
-  public userList$!: Subscription;
-  public userList: UserModel[] = [];
+  
 
   
   constructor(private router: Router, private _usuarioService: UserService) { }
@@ -63,7 +61,13 @@ export class LoginPage implements OnInit, OnDestroy {
             console.log("Usuario existe...");
             this.setObject(user);
             console.log(userInfoSend);
-            this.router.navigate(['home'], userInfoSend)
+            if (user.tipoUsuario == 'alumno') {
+              this.router.navigate(['home'], userInfoSend)
+            }if (user.tipoUsuario == 'profesor') {
+              this.router.navigate(['home-profe'], userInfoSend)
+            }else{
+              this.router.navigate(['home'], userInfoSend)
+            }
           } else {
             //NO EXISTE
             console.log("Usuario no existe...");

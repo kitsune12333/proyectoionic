@@ -13,12 +13,12 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">nombre de usuario</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-label position="floating">nombre de usuario </ion-label>
+        <ion-input type="text" [(ngModel)]="userRegisterModal.usuario"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">contraseña</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="userRegisterModal.password"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">confirme contraseña</ion-label>
@@ -26,18 +26,18 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">correo</ion-label>
-        <ion-input type="email" placeholder="usuario@ejemplo.com"></ion-input>
+        <ion-input type="email" placeholder="usuario@ejemplo.com" [(ngModel)]="userRegisterModal.correo"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">telefono</ion-label>
-        <ion-input type="tel" placeholder="+56"></ion-input>
+        <ion-input type="tel" placeholder="+56" [(ngModel)]="userRegisterModal.telefono"></ion-input>
       </ion-item>
       <ion-title>tipo de usuario</ion-title>
       <ion-item>
-        <ion-radio-group>
+        <ion-radio-group [(ngModel)]="userRegisterModal.tipoUsuario">
           <ion-item>
             <ion-label>profesor</ion-label>
-            <ion-radio value="profesor" slot="start"></ion-radio>
+            <ion-radio value="profesor" slot="start" ></ion-radio>
           </ion-item>
           <ion-item>
             <ion-label>alumno</ion-label>
@@ -47,13 +47,13 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">nombre</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="userRegisterModal.nombre"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Carrera</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="userRegisterModal.carrera"></ion-input>
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-button size="full" color="light" (click)="register()">Registrar</ion-button>
+  <ion-button size="full" color="light" (click)="register(userRegisterModal)">Registrar</ion-button>
 </ion-content>
