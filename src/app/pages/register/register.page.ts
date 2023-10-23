@@ -21,13 +21,13 @@ import { Preferences } from '@capacitor/preferences';
 export class RegisterPage implements OnInit {
 
   userRegisterModal: UserRegister = {
-    usuario:'',
+    username:'',
     password:'',
     correo:'',
     telefono:'',
     tipoUsuario:'',
     nombre:'',
-    carrera:''
+    tipoCarrera:''
   };
 
   constructor(private router: Router, private _registroService: RegistroService) { }
