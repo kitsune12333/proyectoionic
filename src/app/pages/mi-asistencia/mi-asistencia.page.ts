@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user.service';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom} from 'rxjs';
 import { AsistenciaModel } from 'src/app/models/AsistenciaModel';
 import { AsistenciaService } from 'src/app/services/asistencia.service';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { IonModal } from '@ionic/angular';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-mi-asistencia',
@@ -17,7 +21,9 @@ import { AsistenciaService } from 'src/app/services/asistencia.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class MiAsistenciaPage implements OnInit {
-
+  @ViewChild(IonModal) modal!: IonModal;
+  
+  message = 'Ingresar asistencia';
   userInfoReceived: Observable<UserModel>;
   userId: "";
   asistencias: any[] = [];
@@ -35,7 +41,17 @@ export class MiAsistenciaPage implements OnInit {
     console.log(this.userId);
     this.userInfoReceived = this._usuarioService.getUser(this.userId);
     console.log(this.userInfoReceived);
-    
+    let contador = 0;
+
+while (true) {
+  this._asistenciaService.getLastAsistenciaId(contador)
+
+  if (contador === 5) {
+    break; // Rompe el bucle cuando se cumple la condición
+  }
+
+  contador++;
+}
     
     
    }
@@ -55,4 +71,34 @@ export class MiAsistenciaPage implements OnInit {
       }
     );
   }
+
+  
+insertarAsistencia(asistencia: AsistenciaModel) {
+  asistencia.fecha = moment().format('YYYY/MM/DD HH:mm');
+  console.log(asistencia.fecha);
+  asistencia.usuario_asist = true;
+
+  // Obtén el último id de asistencia desde la base de datos
+  
+
+    // Envía la solicitud POST con el objeto asistencia actualizado
+    this._asistenciaService.postAsistencia(asistencia).subscribe(() => {
+      this.modal.dismiss(null, 'confirm');
+      this.getasistencias();
+    });
+  
+}
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      this.message = `hecho, ${ev.detail.data}!`;
+    }
+  }
+
 }
