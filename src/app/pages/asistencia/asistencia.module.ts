@@ -14,7 +14,6 @@ import { AsistenciaPage } from './asistencia.page';
     FormsModule,
     IonicModule,
     AsistenciaPageRoutingModule
-  ],
-  declarations: [AsistenciaPage]
+  ]
 })
 export class AsistenciaPageModule {}

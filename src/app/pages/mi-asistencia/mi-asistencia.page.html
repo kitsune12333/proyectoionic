@@ -7,25 +7,29 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  
-  <ion-list color="warning" [inset]="true" *ngIf="userInfoReceived | async as ch">
-    <ion-item *ngFor="let asistencia of asistencias">
-      <ion-avatar slot="start">
-        <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
-      </ion-avatar>
-      <ion-label>
-        <h1>{{ ch.username }}</h1>
-        <h3>{{ ch.correo }}</h3>
-        <p>{{ asistencia.materia }}</p>
-        <p>{{ asistencia.fecha }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="warning" id="open-modal" expand="block">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    </ion-fab>
+  <ion-card >
+    <ion-list [inset]="true" *ngIf="userInfoReceived | async as ch">
+      <h1>{{ ch.username }}</h1>
+      <h3>{{ ch.correo }}</h3>
+    </ion-list>
+    </ion-card>
+    <ion-list color="warning">
+      <ion-item *ngFor="let asistencia of asistencias">
+        <ion-avatar slot="start">
+          <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
+        </ion-avatar>
+        <ion-label>
+          <p>{{ asistencia.id_user }}</p>
+          <p>{{ asistencia.materia }}</p>
+          <p>{{ asistencia.fecha }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="(userInfoReceived | async)?.tipoUsuario !== 'profesor'">
+      <ion-fab-button color="warning" id="open-modal" expand="block">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>    
     <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
       <ng-template>
         <ion-header>

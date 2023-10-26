@@ -35,7 +35,9 @@ export class HomePage implements OnInit {
        value: JSON.stringify(user)
      });
    }
-
+cerrar(){
+  this.router.navigate(['login'])
+}
   miAsistencia(){
     console.log(this.userInfoReceived);
     this.userInfoReceived.subscribe(

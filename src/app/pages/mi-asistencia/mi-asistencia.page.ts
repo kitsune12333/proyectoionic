@@ -25,15 +25,16 @@ export class MiAsistenciaPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   message = 'Ingresar asistencia';
+  materia!: string;
   userInfoReceived: Observable<UserModel>;
   userId: "";
+  users: any[] = [];
   asistencias: any[] = [];
   asistencia: AsistenciaModel = {
-    id: 0,
     usuario_asist: true,
-    id_user: 0,
+    id_user: '',
     fecha: '',
-    materia: '',
+    materia: ''
 
   };
 
@@ -42,20 +43,71 @@ export class MiAsistenciaPage implements OnInit {
     console.log(this.userId);
     this.userInfoReceived = this._usuarioService.getUser(this.userId);
     console.log(this.userInfoReceived);
+    this.userInfoReceived.subscribe({
+      next: (user) => {
+        console.log(user);
+        if (user) {
+          //EXISTE
+          let userInfoSend: NavigationExtras = {
+            state: {
+              userInfo: user.id
+            }
+          }
+          console.log("Usuario existe...");
+          this.setObject(user);
+          console.log(userInfoSend);
+          if (user.tipoUsuario == 'alumno') {
+            this.getasistencias();
+          }
+          if (user.tipoUsuario == 'profesor') {
+            this.getAllasistencias();
+          }
+        } else {
+          //NO EXISTE
+          console.log("Error de usuario...");
+        }
+      },
+      error: (err) => {
+
+      },
+      complete: () => {
+
+      }
+
+
+    })
 
 
 
   }
+  
+  setObject(user: UserModel) {
+    Preferences.set({
+       key: 'user',
+       value: JSON.stringify(user)
+     });
+   }
 
   ngOnInit() {
-    this.getasistencias();
   }
 
   getasistencias() {
+    console.log(this.userId);
     this._asistenciaService.getAsistencia(this.userId).subscribe(
       (response: any) => {
         this.asistencias = response; // Asegúrate de que la respuesta sea un arreglo
         console.log(this.asistencias);
+        for (let i = 0; i < this.asistencias.length; i++) {
+          console.log(this.asistencias[i]); // Realiza la operación que desees con cada elemento de this.asistencias
+          this.userInfoReceived.subscribe({
+            next: (user) => {
+              if (user.id == this.asistencias[i].id_user) {
+                this.asistencias[i].id_user = user.nombre
+              }
+            },
+
+          })
+        }
       },
       (error) => {
         console.error('Error al obtener asistencias', error);
@@ -63,51 +115,43 @@ export class MiAsistenciaPage implements OnInit {
     );
   }
 
-  setObject(asis: AsistenciaModel) {
-    Preferences.set({
-      key: 'asis',
-      value: JSON.stringify(asis)
-    });
+  getAllasistencias() {
+    this._asistenciaService.getAllAsistencia().subscribe(
+      (response: any) => {
+        this.asistencias = response; // Asegúrate de que la respuesta sea un arreglo
+        console.log(this.asistencias);
+        this._usuarioService.getUserListSupaBase().subscribe(
+          (respuesta: any) => {
+            this.users = respuesta;
+            for (let i = 0; i < this.asistencias.length; i++) {
+              for (let x = 0; x < this.users.length; x++) {
+                if (this.asistencias[i].id_user === this.users[x].id) {
+                  this.asistencias[i].id_user = this.users[x].nombre;
+                }
+              }
+            }
+            console.log(this.asistencias);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error al obtener asistencias', error);
+      }
+    );
   }
+  
 
 
 
   insertarAsistencia(asistencia: AsistenciaModel) {
+    asistencia.id_user = this.userId;
+    console.log(this.userId);
     asistencia.fecha = moment().format('YYYY/MM/DD HH:mm');
     console.log(asistencia.fecha);
     asistencia.usuario_asist = true;
-  
-    let contador = 0;
-    let flag = true;
-    while (flag) {
-      this._asistenciaService.getLastAsistenciaId(contador).subscribe({
-        next: (asis) => {
-          console.log(asis);
-          if (asis) {
-            // EXISTE
-            let asistenciaInfoSend: NavigationExtras = {
-              state: {
-                asistenciaInfo: asis.id
-              }
-            };
-            console.log('asis existe...');
-            this.setObject(asis);
-            console.log(asistenciaInfoSend);
-            if (asis.id == null) {
-              asistencia.id = contador - 1;
-              console.log('asis NO existe...');
-              flag = false; // Rompe el bucle cuando se cumple la condición
-            } else {
-              contador++;
-            }
-            this._asistenciaService.postAsistencia(asistencia).subscribe(() => {
-              this.modal.dismiss(null, 'confirm');
-              this.getasistencias();
-            });
-          }
-        }
-      });
-    }
+    this.modal.dismiss(this.materia, 'confirm');
+    lastValueFrom(this._asistenciaService.postAsistencia(asistencia));
+    this.getasistencias();
     
     
   }

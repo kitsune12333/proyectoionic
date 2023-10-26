@@ -19,13 +19,13 @@ export class AsistenciaService {
     return this._httpclient.get<any>(this.URL_SUPABASE+'?id_user=eq.'+id_user, { headers: this.supabaseheaders})
   }
 
+  getAllAsistencia(): Observable<any>{
+    return this._httpclient.get<any>(this.URL_SUPABASE+'?*', { headers: this.supabaseheaders})
+  }
+
   postAsistencia(asistenciaModel: AsistenciaModel): Observable<AsistenciaModel[]> {
     console.log(this.supabaseheaders);
     return this._httpclient.post<any[]>(this.URL_SUPABASE, asistenciaModel,{ headers: this.supabaseheaders, responseType: 'json' });
   }
 
-  getLastAsistenciaId(id: number): Observable<any> {
-    return this._httpclient.get<any>(this.URL_SUPABASE+'id=eq.'+id ,{ headers: this.supabaseheaders});
-
-}
 }

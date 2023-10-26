@@ -1,7 +1,7 @@
 export interface AsistenciaModel {
-    id: number;
+    
     usuario_asist: boolean;
-    id_user: number;
+    id_user: string;
     fecha: string;
     materia: string;
 }
