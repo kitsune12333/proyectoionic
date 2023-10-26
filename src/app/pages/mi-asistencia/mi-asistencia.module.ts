@@ -15,9 +15,6 @@ import { CardAsistenciaComponent } from 'src/app/conponents/card-asistencia/card
     FormsModule,
     IonicModule,
     MiAsistenciaPageRoutingModule
-  ],
-  declarations: [
-    MiAsistenciaPage
   ]
 })
 export class MiAsistenciaPageModule {}

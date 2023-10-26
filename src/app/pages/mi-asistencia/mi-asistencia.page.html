@@ -8,35 +8,16 @@
 </ion-header>
 <ion-content>
   
-  <ion-list color="warning">
-    <ion-item>
+  <ion-list color="warning" [inset]="true" *ngIf="userInfoReceived | async as ch">
+    <ion-item *ngFor="let asistencia of asistencias">
       <ion-avatar slot="start">
         <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
       </ion-avatar>
       <ion-label>
-        <h1>benjamin salas</h1>
-        <h3>benjabox1@gmail.com</h3>
-        <p>alumno</p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
-      </ion-avatar>
-      <ion-label>
-        <h1>benjamin salas</h1>
-        <h3>benjabox1@gmail.com</h3>
-        <p>alumno</p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
-      </ion-avatar>
-      <ion-label>
-        <h1>benjamin salas</h1>
-        <h3>benjabox1@gmail.com</h3>
-        <p>alumno</p>
+        <h1>{{ ch.username }}</h1>
+        <h3>{{ ch.correo }}</h3>
+        <p>{{ asistencia.materia }}</p>
+        <p>{{ asistencia.fecha }}</p>
       </ion-label>
     </ion-item>
   </ion-list>

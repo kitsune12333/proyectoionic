@@ -83,11 +83,6 @@ export class LoginPage implements OnInit, OnDestroy {
     )
   }
 
-  userLoginModalRestart(): void {
-    this.userLoginModal.correo = '';
-    this.userLoginModal.password = '';
-  }
-
 
   register(){
     this.router.navigate(['register'])
