@@ -7,53 +7,59 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Registro</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">nombre de usuario </ion-label>
-        <ion-input type="text" [(ngModel)]="userRegisterModal.username"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="userRegisterModal.password"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">confirme contraseña</ion-label>
-        <ion-input type="password"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">correo</ion-label>
-        <ion-input type="email" placeholder="usuario@ejemplo.com" [(ngModel)]="userRegisterModal.correo"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">telefono</ion-label>
-        <ion-input type="tel" placeholder="+56" [(ngModel)]="userRegisterModal.telefono"></ion-input>
-      </ion-item>
-      <ion-title>tipo de usuario</ion-title>
-      <ion-item>
-        <ion-radio-group [(ngModel)]="userRegisterModal.tipoUsuario">
+  <form [formGroup]="loginForm" (ngSubmit)="register()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Registro</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
           <ion-item>
-            <ion-label>profesor</ion-label>
-            <ion-radio value="profesor" slot="start" ></ion-radio>
+            <ion-label position="floating">nombre de usuario </ion-label>
+            <ion-input type="text" formControlName="username"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label>alumno</ion-label>
-            <ion-radio value="alumno" slot="start"></ion-radio>
+            <ion-label position="floating">contraseña</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
-        </ion-radio-group>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">nombre</ion-label>
-        <ion-input type="text" [(ngModel)]="userRegisterModal.nombre"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Carrera</ion-label>
-        <ion-input type="text" [(ngModel)]="userRegisterModal.tipoCarrera"></ion-input>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-  <ion-button size="full" color="light" (click)="register(userRegisterModal)">Registrar</ion-button>
+          <ion-item>
+            <ion-label position="floating">confirme contraseña</ion-label>
+            <ion-input type="password"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">correo</ion-label>
+            <ion-input type="email" placeholder="usuario@ejemplo.com" formControlName="correo"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">telefono</ion-label>
+            <ion-input type="tel" placeholder="+56" formControlName="telefono"></ion-input>
+          </ion-item>
+          <ion-title>tipo de usuario</ion-title>
+          <ion-item>
+            <ion-radio-group formControlName="tipoUsuario">
+              <ion-item>
+                <ion-label>profesor</ion-label>
+                <ion-radio value="profesor" slot="start" ></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>alumno</ion-label>
+                <ion-radio value="alumno" slot="start"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">nombre</ion-label>
+            <ion-input type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Carrera</ion-label>
+            <ion-input type="text" formControlName="tipoCarrera"></ion-input>
+          </ion-item>
+              </ion-card-content>
+            <ion-button type="submit" size="full" color="light">Registrar</ion-button>
+    </ion-card>
+      </form>
+      <ion-item *ngIf="loginError" class="error-message"> <ion-card class="flex-center" color="danger">
+        <p>Correo o/y contraseña incorrecta</p>
+      </ion-card>
+    </ion-item>
 </ion-content>

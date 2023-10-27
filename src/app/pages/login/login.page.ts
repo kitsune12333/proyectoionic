@@ -7,20 +7,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user.service';
 import { IUserLogin } from 'src/app/models/IUserLogin';
-import { Observable, Subscription } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterLinkWithHref, FormsModule, HttpClientModule, NgFor, NgForOf],
+  imports: [IonicModule, CommonModule, RouterLinkWithHref, FormsModule, HttpClientModule, NgFor, NgForOf, ReactiveFormsModule ],
   providers: [UserService]
   
 })
 export class LoginPage implements OnInit, OnDestroy {
 
+  loginForm: FormGroup;
+  loginError: boolean = false;
   userLoginModal: IUserLogin = {
     correo: '',
     password: ''
@@ -29,7 +32,12 @@ export class LoginPage implements OnInit, OnDestroy {
   
 
   
-  constructor(private router: Router, private _usuarioService: UserService) { }
+  constructor(private router: Router, private _usuarioService: UserService, private formBuilder: FormBuilder) { 
+    this.loginForm = this.formBuilder.group({
+      correo: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
@@ -46,10 +54,18 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
-  login(userLoginInfo: IUserLogin) {
-    this._usuarioService.getLoginUser(userLoginInfo.correo, userLoginInfo.password).subscribe(
+
+  login() {
+    if (this.loginForm.invalid) {
+      console.log('Formulario inválido');
+      return;
+    }
+  
+    // Continúa con la lógica de inicio de sesión
+    this._usuarioService.getLoginUser(this.loginForm.value.correo, this.loginForm.value.password).subscribe(
       {
         next: (user) => {
+          this.loginError = false;
           console.log(user);
           if (user) {
             //EXISTE
@@ -72,17 +88,17 @@ export class LoginPage implements OnInit, OnDestroy {
             //NO EXISTE
             console.log("Usuario no existe...");
           }
+          
         },
         error: (err) => {
-
+          console.error('Error en inicio de sesión', err);
+          this.loginError = true;
         },
         complete: () => {
-
         }
       }
-    )
+    );
   }
-
 
   register(){
     this.router.navigate(['register'])
