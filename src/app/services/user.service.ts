@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { UserModel } from "../models/UserModel";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable} from "rxjs";
+import { Observable, map} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
 
   URL_SUPABASE = 'https://zlhulhiqqojomlvevdys.supabase.co/rest/v1/user'
 
@@ -28,5 +29,6 @@ export class UserService {
     getLoginUser(correo: string, password: string): Observable<UserModel>{
       return this._httpclient.get<UserModel>(this.URL_SUPABASE+'?select=id,username,correo,telefono,tipoUsuario,nombre,tipoCarrera&correo=eq.'+correo+'&password=eq.'+password,{ headers: this.supabaseheaders.set('Accept', 'application/vnd.pgrst.object+json'), responseType: 'json' });
   }
+
   
 }

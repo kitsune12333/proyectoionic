@@ -19,22 +19,57 @@ import { Preferences } from '@capacitor/preferences';
 export class HomePage implements OnInit {
 
   userInfoReceived: Observable<UserModel>;
+  
 
   constructor(private router: Router, private _usuarioService: UserService) {
     const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(userId);
     this.userInfoReceived = this._usuarioService.getUser(userId);
+    
    }
 
-  ngOnInit() {
-  }
-
-  setObject(user: UserModel) {
+   setObject(user: UserModel) {
     Preferences.set({
        key: 'user',
        value: JSON.stringify(user)
      });
    }
+
+
+  ngOnInit() {
+    this.userInfoReceived.subscribe(
+      { 
+
+        next: (user) => {
+          console.log(user);
+          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
+            next: (usuario) => {
+              if (usuario) {
+                //EXISTE
+                console.log("Usuario existe y autentificado");
+              } 
+            },
+            error: (err) => {
+              console.log('error al ubicar y autentificar usuario');
+              this.router.navigate(['/login']);
+            },
+            complete: () => {
+    
+            }
+          })
+        },
+        error: (err) => {
+          console.log('error al autentificar usuario');
+          this.router.navigate(['/login']);
+        },
+        complete: () => {
+
+        }
+      }
+    )
+  }
+
+  
 cerrar(){
   this.router.navigate(['login'])
 }

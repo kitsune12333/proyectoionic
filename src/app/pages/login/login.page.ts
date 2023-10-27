@@ -20,7 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   providers: [UserService]
   
 })
-export class LoginPage implements OnInit, OnDestroy {
+export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
   loginError: boolean = false;
@@ -39,9 +39,6 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
 
   ngOnInit(): void {
 

@@ -89,6 +89,36 @@ export class MiAsistenciaPage implements OnInit {
    }
 
   ngOnInit() {
+    this.userInfoReceived.subscribe(
+      { 
+
+        next: (user) => {
+          console.log(user);
+          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
+            next: (usuario) => {
+              if (usuario) {
+                //EXISTE
+                console.log("Usuario existe y autentificado");
+              } 
+            },
+            error: (err) => {
+              console.log('error al ubicar y autentificar usuario');
+              this.router.navigate(['/login']);
+            },
+            complete: () => {
+    
+            }
+          })
+        },
+        error: (err) => {
+          console.log('error al autentificar usuario');
+          this.router.navigate(['/login']);
+        },
+        complete: () => {
+
+        }
+      }
+    )
   }
 
   getasistencias() {
