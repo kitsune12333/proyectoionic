@@ -24,6 +24,7 @@ export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
   loginError: boolean = false;
+  vacio: boolean = false;
   userLoginModal: IUserLogin = {
     correo: '',
     password: ''
@@ -55,6 +56,7 @@ export class LoginPage implements OnInit {
   login() {
     if (this.loginForm.invalid) {
       console.log('Formulario inválido');
+      this.vacio = true;
       return;
     }
   
@@ -63,6 +65,7 @@ export class LoginPage implements OnInit {
       {
         next: (user) => {
           this.loginError = false;
+          this.vacio = false;
           console.log(user);
           if (user) {
             //EXISTE

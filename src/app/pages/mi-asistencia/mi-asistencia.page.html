@@ -9,8 +9,15 @@
 <ion-content>
   <ion-card >
     <ion-list [inset]="true" *ngIf="userInfoReceived | async as ch">
-      <h1>{{ ch.username }}</h1>
-      <h3>{{ ch.correo }}</h3>
+      <ion-item class="flex-center">
+        <ion-avatar slot="start">
+          <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
+        </ion-avatar>
+        <ion-label >
+          <h1>{{ ch.username }}</h1>
+          <h3>{{ ch.correo }}</h3>
+        </ion-label>
+      </ion-item>
     </ion-list>
     </ion-card>
     <ion-list color="warning">

@@ -9,6 +9,9 @@
 <ion-content>
   <form [formGroup]="loginForm" (ngSubmit)="register()">
     <ion-card>
+      <ion-item *ngIf="userError" class="error-message"><ion-card class="flex-center" color="danger">
+        <p>usuario y/o correo ya tomados</p>
+      </ion-card></ion-item>
       <ion-card-header>
         <ion-card-title>Registro</ion-card-title>
       </ion-card-header>
@@ -23,8 +26,11 @@
           </ion-item>
           <ion-item>
             <ion-label position="floating">confirme contraseña</ion-label>
-            <ion-input type="password"></ion-input>
+            <ion-input type="password" formControlName="passwordC"></ion-input>
           </ion-item>
+          <ion-item *ngIf="contraError" class="error-message"><ion-card class="flex-center" color="danger">
+            <p>contraseña no coincide</p>
+          </ion-card></ion-item>
           <ion-item>
             <ion-label position="floating">correo</ion-label>
             <ion-input type="email" placeholder="usuario@ejemplo.com" formControlName="correo"></ion-input>
@@ -56,10 +62,9 @@
           </ion-item>
               </ion-card-content>
             <ion-button type="submit" size="full" color="light">Registrar</ion-button>
-    </ion-card>
+            <ion-item *ngIf="loginError" class="error-message"><ion-card class="flex-center" color="danger">
+              <p>campos incompletos</p>
+            </ion-card></ion-item>
+          </ion-card>
       </form>
-      <ion-item *ngIf="loginError" class="error-message"> <ion-card class="flex-center" color="danger">
-        <p>Correo o/y contraseña incorrecta</p>
-      </ion-card>
-    </ion-item>
 </ion-content>

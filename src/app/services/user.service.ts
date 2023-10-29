@@ -30,5 +30,9 @@ export class UserService {
       return this._httpclient.get<UserModel>(this.URL_SUPABASE+'?select=id,username,correo,telefono,tipoUsuario,nombre,tipoCarrera&correo=eq.'+correo+'&password=eq.'+password,{ headers: this.supabaseheaders.set('Accept', 'application/vnd.pgrst.object+json'), responseType: 'json' });
   }
 
+  getUserConfirm(correo: string, username: string): Observable<UserModel>{
+    return this._httpclient.get<UserModel>(this.URL_SUPABASE+'?select=id,username,correo,telefono,tipoUsuario,nombre,tipoCarrera&correo=eq.'+correo+'&username=eq.'+username,{ headers: this.supabaseheaders.set('Accept', 'application/vnd.pgrst.object+json'), responseType: 'json' });
+}
+
   
 }
