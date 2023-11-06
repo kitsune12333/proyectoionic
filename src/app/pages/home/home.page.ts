@@ -19,6 +19,7 @@ import { Preferences } from '@capacitor/preferences';
 export class HomePage implements OnInit {
 
   userInfoReceived: Observable<UserModel>;
+  userModel: Observable<UserModel> | undefined;
   
 
   constructor(private router: Router, private _usuarioService: UserService) {
@@ -26,17 +27,21 @@ export class HomePage implements OnInit {
     console.log(userId);
     this.userInfoReceived = this._usuarioService.getUser(userId);
     
+    
    }
 
-   setObject(user: UserModel) {
-    Preferences.set({
-       key: 'user',
-       value: JSON.stringify(user)
-     });
-   }
+   
+   async getObject() {
+    const { value } = await Preferences.get({ key: 'user' }); // Obtener el valor del Local Storage
 
+    if (value) {
+      this.userModel = JSON.parse(value); // Parsear el valor obtenido a un objeto UserModel
+      console.log(this.userModel); // Puedes imprimirlo en la consola para verificar que se haya guardado correctamente
+    }
+  }
 
   ngOnInit() {
+    this.getObject();
     this.userInfoReceived.subscribe(
       { 
 
@@ -87,7 +92,7 @@ cerrar(){
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
+            
             console.log(userInfoSend);
             if (user.tipoUsuario == 'alumno') {
               this.router.navigate(['mi-asistencia'], userInfoSend)
