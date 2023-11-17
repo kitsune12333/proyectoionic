@@ -28,45 +28,10 @@ export class HomePage implements OnInit {
     
    }
 
-   setObject(user: UserModel) {
-    Preferences.set({
-       key: 'user',
-       value: JSON.stringify(user)
-     });
-   }
 
 
   ngOnInit() {
-    this.userInfoReceived.subscribe(
-      { 
-
-        next: (user) => {
-          console.log(user);
-          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
-            next: (usuario) => {
-              if (usuario) {
-                //EXISTE
-                console.log("Usuario existe y autentificado");
-              } 
-            },
-            error: (err) => {
-              console.log('error al ubicar y autentificar usuario');
-              this.router.navigate(['/login']);
-            },
-            complete: () => {
     
-            }
-          })
-        },
-        error: (err) => {
-          console.log('error al autentificar usuario');
-          this.router.navigate(['/login']);
-        },
-        complete: () => {
-
-        }
-      }
-    )
   }
 
   
@@ -87,7 +52,6 @@ cerrar(){
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
             console.log(userInfoSend);
             if (user.tipoUsuario == 'alumno') {
               this.router.navigate(['mi-asistencia'], userInfoSend)

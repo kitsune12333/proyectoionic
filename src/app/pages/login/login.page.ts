@@ -45,11 +45,8 @@ export class LoginPage implements OnInit {
 
   }
 
-  setObject(user: UserModel) {
-   Preferences.set({
-      key: 'user',
-      value: JSON.stringify(user)
-    });
+  setObject(user: string) {
+   localStorage.setItem("user", user)
   }
 
 
@@ -75,7 +72,9 @@ export class LoginPage implements OnInit {
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
+            console.log(localStorage.getItem("user"));
+            this.setObject(user.id);
+            console.log(localStorage.getItem("user"));
             console.log(userInfoSend);
             if (user.tipoUsuario == 'alumno') {
               this.router.navigate(['home'], userInfoSend)
