@@ -127,6 +127,27 @@ export class MiAsistenciaPage implements OnInit {
       }
     )
   }
+  async scan(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert();
+      return;
+    }
+    const { barcodes } = await BarcodeScanner.scan();
+    this.barcodes.push(...barcodes);
+  }
+  async requestPermissions(): Promise<boolean> {
+    const { camera } = await BarcodeScanner.requestPermissions();
+    return camera === 'granted' || camera === 'limited';
+  }
+  async presentAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Permission denied',
+      message: 'Please grant camera permission to use the barcode scanner.',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
   getasistencias() {
     console.log(this.userId);
@@ -203,38 +224,5 @@ export class MiAsistenciaPage implements OnInit {
     if (ev.detail.role === 'confirm') {
       this.message = `hecho, ${ev.detail.data}!`;
     }
-  }
-  
-  async scan(): Promise<void> {
-    try{const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert();
-      return;
-    }
-    const { barcodes } = await BarcodeScanner.scan({ formats: [BarcodeFormat.QrCode]});
-    this.barcodes.push(...barcodes);}
-    catch(err){this.presentAlert2(err)}
-  }
-
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
-
-  async presentAlert(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Permission denied',
-      message: 'Please grant camera permission to use the barcode scanner.',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-  async presentAlert2(err:any): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Permission denied',
-      message: err,
-      buttons: ['OK'],
-    });
-    await alert.present();
   }
 }
