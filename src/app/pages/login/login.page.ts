@@ -45,12 +45,7 @@ export class LoginPage implements OnInit {
 
   }
 
-  setObject(user: UserModel) {
-   Preferences.set({
-      key: 'user',
-      value: JSON.stringify(user)
-    });
-  }
+ 
 
 
   login() {
@@ -63,7 +58,7 @@ export class LoginPage implements OnInit {
     // Continúa con la lógica de inicio de sesión
     this._usuarioService.getLoginUser(this.loginForm.value.correo, this.loginForm.value.password).subscribe(
       {
-        next: (user) => {
+        next: (user: { id: string; tipoUsuario: string; }) => {
           this.loginError = false;
           this.vacio = false;
           console.log(user);
@@ -75,8 +70,8 @@ export class LoginPage implements OnInit {
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
             console.log(userInfoSend);
+            localStorage.setItem("user", user.id);
             if (user.tipoUsuario == 'alumno') {
               this.router.navigate(['home'], userInfoSend)
             }if (user.tipoUsuario == 'profesor') {
@@ -90,7 +85,7 @@ export class LoginPage implements OnInit {
           }
           
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Error en inicio de sesión', err);
           this.loginError = true;
         },

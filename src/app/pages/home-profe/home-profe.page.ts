@@ -18,48 +18,20 @@ import { Preferences } from '@capacitor/preferences';
 
 export class HomeProfePage implements OnInit {
 
-  userInfoReceived: Observable<UserModel>;
+  userInfoReceived!: Observable<UserModel>;
 
   constructor(private router: Router, private _usuarioService: UserService) {
-    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    console.log(userId);
-    this.userInfoReceived = this._usuarioService.getUser(userId);
    }
 
   ngOnInit() {
-    this.userInfoReceived.subscribe(
-      { 
-
-        next: (user) => {
-          console.log(user);
-          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
-            next: (usuario) => {
-              if (usuario) {
-                //EXISTE
-                console.log("Usuario existe y autentificado");
-              } 
-            },
-            error: (err) => {
-              console.log('error al ubicar y autentificar usuario');
-              this.router.navigate(['/login']);
-            },
-            complete: () => {
-    
-            }
-          })
-        },
-        error: (err) => {
-          console.log('error al autentificar usuario');
-          this.router.navigate(['/login']);
-        },
-        complete: () => {
-
-        }
-      }
-    )
+    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    console.log(userId);
+    localStorage.setItem("user", userId);
+    this.userInfoReceived = this._usuarioService.getUser(userId);
   }
 
   cerrar(){
+    localStorage.removeItem("user");
     this.router.navigate(['login'])
   }
 
@@ -75,7 +47,6 @@ export class HomeProfePage implements OnInit {
                 userInfo: user.id
               }
             }
-            this.setObject(user);
             console.log(userInfoSend);
             if (user.tipoUsuario == 'profesor') {
               this.router.navigate(['asistencia'], userInfoSend)
@@ -95,12 +66,7 @@ export class HomeProfePage implements OnInit {
     )
   }
 
-  setObject(user: UserModel) {
-    Preferences.set({
-       key: 'user',
-       value: JSON.stringify(user)
-     });
-   }
+
 
   lista(){
     console.log(this.userInfoReceived);
@@ -116,7 +82,7 @@ export class HomeProfePage implements OnInit {
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
+            
             console.log(userInfoSend);
             if (user.tipoUsuario == 'profesor') {
               this.router.navigate(['mi-asistencia'], userInfoSend)

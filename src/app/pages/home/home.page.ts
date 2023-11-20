@@ -6,7 +6,7 @@ import { NavigationExtras, Router} from '@angular/router';
 import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user.service';
 import { Observable } from 'rxjs';
-import { Preferences } from '@capacitor/preferences';
+
 
 
 @Component({
@@ -18,59 +18,26 @@ import { Preferences } from '@capacitor/preferences';
 })
 export class HomePage implements OnInit {
 
-  userInfoReceived: Observable<UserModel>;
+  userInfoReceived!: Observable<UserModel>;
   
 
   constructor(private router: Router, private _usuarioService: UserService) {
-    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    console.log(userId);
-    this.userInfoReceived = this._usuarioService.getUser(userId);
-    
    }
 
-   setObject(user: UserModel) {
-    Preferences.set({
-       key: 'user',
-       value: JSON.stringify(user)
-     });
-   }
+   
 
 
   ngOnInit() {
-    this.userInfoReceived.subscribe(
-      { 
-
-        next: (user) => {
-          console.log(user);
-          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
-            next: (usuario) => {
-              if (usuario) {
-                //EXISTE
-                console.log("Usuario existe y autentificado");
-              } 
-            },
-            error: (err) => {
-              console.log('error al ubicar y autentificar usuario');
-              this.router.navigate(['/login']);
-            },
-            complete: () => {
-    
-            }
-          })
-        },
-        error: (err) => {
-          console.log('error al autentificar usuario');
-          this.router.navigate(['/login']);
-        },
-        complete: () => {
-
-        }
-      }
-    )
+    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    console.log(userId);
+    localStorage.setItem("user", userId);
+    console.log(localStorage.getItem("user"));
+    this.userInfoReceived = this._usuarioService.getUser(userId);
   }
 
   
 cerrar(){
+  localStorage.removeItem("user");
   this.router.navigate(['login'])
 }
   miAsistencia(){
@@ -87,7 +54,6 @@ cerrar(){
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
             console.log(userInfoSend);
             if (user.tipoUsuario == 'alumno') {
               this.router.navigate(['mi-asistencia'], userInfoSend)
