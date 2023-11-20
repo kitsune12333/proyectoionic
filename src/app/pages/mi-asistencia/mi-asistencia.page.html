@@ -7,15 +7,58 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let barcode of barcodes">
-      <ion-label position="stacked">{{ barcode.format }}</ion-label>
-      <ion-input type="text" [value]="barcode.rawValue"></ion-input>
-    </ion-item>
-  </ion-list>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="scan()" [disabled]="!isSupported">
-      <ion-icon name="scan"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-card >
+    <ion-list [inset]="true" *ngIf="userInfoReceived | async as ch">
+      <ion-item class="flex-center">
+        <ion-avatar slot="start">
+          <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
+        </ion-avatar>
+        <ion-label >
+          <h1>{{ ch.username }}</h1>
+          <h3>{{ ch.correo }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    </ion-card>
+    <ion-list color="warning">
+      <ion-item *ngFor="let asistencia of asistencias">
+        <ion-avatar slot="start">
+          <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
+        </ion-avatar>
+        <ion-label>
+          <p>{{ asistencia.id_user }}</p>
+          <p>{{ asistencia.materia }}</p>
+          <p>{{ asistencia.fecha }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="(userInfoReceived | async)?.tipoUsuario !== 'profesor'">
+      <ion-fab-button color="warning" id="open-modal" expand="block">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>    
+    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Asistencia</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="insertarAsistencia(asistencia)" [strong]="true">Confirm</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+              <ion-input
+                label="ingresa la materia"
+                type="text"
+                [(ngModel)]="asistencia.materia"
+              ></ion-input>
+            </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
 </ion-content>

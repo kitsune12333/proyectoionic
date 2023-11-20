@@ -73,6 +73,39 @@ cerrar(){
     )
   }
 
+  registrarAsistencia(){
+    console.log(this.userInfoReceived);
+    this.userInfoReceived.subscribe(
+      {
+        next: (user) => {
+          console.log(user);
+          if (user) {
+            //EXISTE
+            let userInfoSend: NavigationExtras = {
+              state: {
+                userInfo: user.id
+              }
+            }
+            console.log("Usuario existe...");
+            console.log(userInfoSend);
+            if (user.tipoUsuario == 'alumno') {
+              this.router.navigate(['registrar-asistencia'], userInfoSend)
+            }
+          } else {
+            //NO EXISTE
+            console.log("Error de usuario...");
+          }
+        },
+        error: (err) => {
+
+        },
+        complete: () => {
+
+        }
+      }
+    )
+  }
+
 }
 
 

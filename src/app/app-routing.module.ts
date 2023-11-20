@@ -44,6 +44,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/mi-asistencia/mi-asistencia.module').then( m => m.MiAsistenciaPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'registrar-asistencia',
+    loadChildren: () => import('./pages/registrar-asistencia/registrar-asistencia.module').then( m => m.RegistrarAsistenciaPageModule),
+    canActivate: [AuthGuard]
+  },
+
 ];
 
 @NgModule({

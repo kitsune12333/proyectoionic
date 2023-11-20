@@ -14,7 +14,7 @@ import { Barcode, BarcodeFormat, BarcodeScanner } from '@capacitor-mlkit/barcode
 import { AlertController } from '@ionic/angular';
 
 import * as moment from 'moment';
-import { Preferences } from '@capacitor/preferences';
+
 
 @Component({
   selector: 'app-mi-asistencia',
@@ -30,8 +30,8 @@ export class MiAsistenciaPage implements OnInit {
 
   message = 'Ingresar asistencia';
   materia!: string;
-  userInfoReceived: Observable<UserModel>;
-  userId: "";
+  userInfoReceived!: Observable<UserModel>;
+  userId!: "";
   users: any[] = [];
   asistencias: any[] = [];
   asistencia: AsistenciaModel = {
@@ -43,10 +43,19 @@ export class MiAsistenciaPage implements OnInit {
   };
 
   constructor(private alertController: AlertController, private router: Router, private _usuarioService: UserService, private _asistenciaService: AsistenciaService) {
+
+  }
+  
+ 
+  
+  ngOnInit() {
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
+    });
     this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(this.userId);
+    localStorage.setItem("user", this.userId);
     this.userInfoReceived = this._usuarioService.getUser(this.userId);
-    console.log(this.userInfoReceived);
     this.userInfoReceived.subscribe({
       next: (user) => {
         console.log(user);
@@ -58,7 +67,7 @@ export class MiAsistenciaPage implements OnInit {
             }
           }
           console.log("Usuario existe...");
-          this.setObject(user);
+         
           console.log(userInfoSend);
           if (user.tipoUsuario == 'alumno') {
             this.getasistencias();
@@ -80,74 +89,9 @@ export class MiAsistenciaPage implements OnInit {
 
 
     })
-
-
-
   }
+
   
-  setObject(user: UserModel) {
-    Preferences.set({
-       key: 'user',
-       value: JSON.stringify(user)
-    });
-  }
-  
-  ngOnInit() {
-    BarcodeScanner.isSupported().then((result) => {
-      this.isSupported = result.supported;
-    });
-    this.userInfoReceived.subscribe(
-      { 
-
-        next: (user) => {
-          console.log(user);
-          this._usuarioService.getLoginUser(user.correo , user.password).subscribe({
-            next: (usuario) => {
-              if (usuario) {
-                //EXISTE
-                console.log("Usuario existe y autentificado");
-              } 
-            },
-            error: (err) => {
-              console.log('error al ubicar y autentificar usuario');
-              this.router.navigate(['/login']);
-            },
-            complete: () => {
-    
-            }
-          })
-        },
-        error: (err) => {
-          console.log('error al autentificar usuario');
-          this.router.navigate(['/login']);
-        },
-        complete: () => {
-
-        }
-      }
-    )
-  }
-  async scan(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert();
-      return;
-    }
-    const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
-  }
-  async requestPermissions(): Promise<boolean> {
-    const { camera } = await BarcodeScanner.requestPermissions();
-    return camera === 'granted' || camera === 'limited';
-  }
-  async presentAlert(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Permission denied',
-      message: 'Please grant camera permission to use the barcode scanner.',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
 
   getasistencias() {
     console.log(this.userId);
