@@ -6,7 +6,7 @@ import { NavigationExtras, Router} from '@angular/router';
 import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user.service';
 import { Observable } from 'rxjs';
-import { Preferences } from '@capacitor/preferences';
+
 
 
 @Component({
@@ -18,24 +18,26 @@ import { Preferences } from '@capacitor/preferences';
 })
 export class HomePage implements OnInit {
 
-  userInfoReceived: Observable<UserModel>;
+  userInfoReceived!: Observable<UserModel>;
   
 
   constructor(private router: Router, private _usuarioService: UserService) {
-    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    console.log(userId);
-    this.userInfoReceived = this._usuarioService.getUser(userId);
     
    }
 
 
 
   ngOnInit() {
-    
+    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    console.log(userId);
+    localStorage.setItem("user", userId);
+    console.log(localStorage.getItem("user"));
+    this.userInfoReceived = this._usuarioService.getUser(userId);
   }
 
   
 cerrar(){
+  localStorage.removeItem("user");
   this.router.navigate(['login'])
 }
   miAsistencia(){

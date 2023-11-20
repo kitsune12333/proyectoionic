@@ -15,12 +15,13 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
     var user = localStorage.getItem("user");
-    
-    if (user !== "") { // Corregir el operador aquí
-      return true;
-    } else {
+    console.log(localStorage.getItem("user"));
+    if (user == undefined) { // Corregir el operador aquí
       this.router.navigate(['login'])
-      return false; 
+      return false;
+    } else {
+      
+      return true; 
     }
   }
 }

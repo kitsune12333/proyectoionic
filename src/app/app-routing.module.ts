@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuardService as AuthGuard } from './logueo/auth-guard.service';
-
+import { AuthGuard } from './logueo/auth.guard';
 const routes: Routes = [
   {
     path: '',

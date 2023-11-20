@@ -6,7 +6,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { UserModel } from 'src/app/models/UserModel';
 import { UserService } from 'src/app/services/user.service';
 import { Observable } from 'rxjs';
-import { Preferences } from '@capacitor/preferences';
+
 
 @Component({
   selector: 'app-home-profe',
@@ -18,16 +18,17 @@ import { Preferences } from '@capacitor/preferences';
 
 export class HomeProfePage implements OnInit {
 
-  userInfoReceived: Observable<UserModel>;
+  userInfoReceived!: Observable<UserModel>;
 
   constructor(private router: Router, private _usuarioService: UserService) {
-    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
-    console.log(userId);
-    this.userInfoReceived = this._usuarioService.getUser(userId);
+    
    }
 
   ngOnInit() {
-    
+    const userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
+    console.log(userId);
+    localStorage.setItem("user", userId);
+    this.userInfoReceived = this._usuarioService.getUser(userId);
   }
 
   cerrar(){
@@ -82,7 +83,7 @@ export class HomeProfePage implements OnInit {
               }
             }
             console.log("Usuario existe...");
-            this.setObject(user);
+            
             console.log(userInfoSend);
             if (user.tipoUsuario == 'profesor') {
               this.router.navigate(['mi-asistencia'], userInfoSend)
