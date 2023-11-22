@@ -62,5 +62,7 @@ export class AsistenciaPage implements OnInit {
       }
     )
   }
-
+  generarQr(){
+    this.router.navigate(['generar-qr'])
+  }
 }
