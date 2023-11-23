@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-generar-qr',
   templateUrl: './generar-qr.page.html',
   styleUrls: ['./generar-qr.page.scss'],
 })
-export class GenerarQrPage implements OnInit {
+export class GenerarQrPage {
+  qrCode: SafeResourceUrl | undefined;
+  dato: string = ''; // Agrega esta línea para inicializar la variable dato
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit() {
+  generarQr() {
+    const data = this.dato || 'DefaultDato'; // Usa el valor ingresado o un valor por defecto
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`;
+    this.qrCode = url
   }
-
 }

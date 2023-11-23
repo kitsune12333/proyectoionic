@@ -8,6 +8,7 @@ import { GenerarQrPageRoutingModule } from './generar-qr-routing.module';
 
 import { GenerarQrPage } from './generar-qr.page';
 
+
 @NgModule({
   imports: [
     CommonModule,
