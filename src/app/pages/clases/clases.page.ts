@@ -18,6 +18,6 @@ export class ClasesPage implements OnInit {
   ngOnInit() {
   }
   crearClase(){
-
+    
   }
 }
