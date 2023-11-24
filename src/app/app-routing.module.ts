@@ -49,11 +49,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registrar-asistencia/registrar-asistencia.module').then( m => m.RegistrarAsistenciaPageModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'generar-qr',
-    loadChildren: () => import('./pages/generar-qr/generar-qr.module').then( m => m.GenerarQrPageModule),
-    canActivate: [AuthGuard]
-  },
 ];
 
 @NgModule({

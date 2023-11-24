@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content >
-  <ion-button (click)="generarQr()">GENERAR QR</ion-button>
-  <div class="qr"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Rickrolling_QR_code.png?20200615212723" alt=""></div>
   <ion-list>
     <ion-item lines="inset">
-      <ion-label position="floating">clase</ion-label>
-      <ion-textarea></ion-textarea>
+      <ion-label position="floating">Ingrese el valor de "data"</ion-label>
+      <ion-input [(ngModel)]="dato"></ion-input>
     </ion-item>
+    <ion-button (click)="generarClase()">Generar QR</ion-button>
+    <ion-img [src]="qrCode"></ion-img>
   </ion-list>
-  <ion-button size="full" color="warning" (click)="verAsistencia()">ver asisterncias</ion-button>
+  <ion-button size="full" color="warning" (click)="verAsistencia()">Ver Asistencia</ion-button>
 </ion-content>

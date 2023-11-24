@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -16,10 +17,11 @@ import { UserService } from 'src/app/services/user.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AsistenciaPage implements OnInit {
-  
+  qrCode: SafeResourceUrl | undefined;
+  dato: string = ''; // Agrega esta línea para inicializar la variable dato
   userInfoReceived!: Observable<UserModel>;
 
-  constructor(private router: Router, private _usuarioService: UserService) { 
+  constructor(private router: Router, private _usuarioService: UserService,private sanitizer: DomSanitizer) { 
     
   }
 
@@ -62,7 +64,9 @@ export class AsistenciaPage implements OnInit {
       }
     )
   }
-  generarQr(){
-    this.router.navigate(['generar-qr'])
+  generarClase() {
+    const data = this.dato || 'DefaultDato'; // Usa el valor ingresado o un valor por defecto
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`;
+    this.qrCode = url
   }
 }
