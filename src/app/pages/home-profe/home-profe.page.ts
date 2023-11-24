@@ -66,7 +66,9 @@ export class HomeProfePage implements OnInit {
     )
   }
 
-
+  nuevaClase(){
+    this.router.navigate(['clases'])
+  }
 
   lista(){
     console.log(this.userInfoReceived);
