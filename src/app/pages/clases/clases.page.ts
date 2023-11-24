@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ClaseRegister } from 'src/app/models/ClaseRegister';
 
 @Component({
@@ -7,6 +8,8 @@ import { ClaseRegister } from 'src/app/models/ClaseRegister';
   styleUrls: ['./clases.page.scss'],
 })
 export class ClasesPage implements OnInit {
+  loginError: boolean = false;
+  creada: boolean = false;
   userRegisterModal: ClaseRegister = {
     nombre: '',
     hora_inicio: '',
@@ -18,6 +21,13 @@ export class ClasesPage implements OnInit {
   ngOnInit() {
   }
   crearClase(){
-    
+    this._registroService.postAsigntura(this.userRegisterModal).subscribe({
+      complete: () => {
+        this.creada = true;
+      },
+      error: (err) => {
+        console.error('Error al registrar', err);
+      }
+    })
   }
 }
