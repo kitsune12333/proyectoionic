@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { UserService } from 'src/app/services/user.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AsignaturaService } from 'src/app/services/asignatura.service';
+import { Asignatura } from 'src/app/models/Asignatura';
 
 
 @Component({
@@ -14,14 +16,20 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './asistencia.page.html',
   styleUrls: ['./asistencia.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule],
+  providers: [AsignaturaService]
 })
 export class AsistenciaPage implements OnInit {
   qrCode: SafeResourceUrl | undefined;
   dato: string = ''; // Agrega esta línea para inicializar la variable dato
   userInfoReceived!: Observable<UserModel>;
-
-  constructor(private router: Router, private _usuarioService: UserService,private sanitizer: DomSanitizer) { 
+  asignaturaData: Asignatura = {
+    nombre: '',
+    hora_ini: '',
+    hora_ter: '',
+    dia: ''
+  };
+  constructor(private router: Router, private _usuarioService: UserService,private sanitizer: DomSanitizer,private asignaturaService: AsignaturaService) { 
     
   }
 
@@ -30,6 +38,12 @@ export class AsistenciaPage implements OnInit {
     console.log(userId);
     localStorage.setItem("user", userId);
     this.userInfoReceived = this._usuarioService.getUser(userId);
+    this.asignaturaData = {
+      nombre: '',
+      hora_ini: '',
+      hora_ter: '',
+      dia: ''
+    };
   }
 
 
@@ -65,8 +79,24 @@ export class AsistenciaPage implements OnInit {
     )
   }
   generarClase() {
-    const data = this.dato || 'DefaultDato'; // Usa el valor ingresado o un valor por defecto
+    const data = this.asignaturaData.nombre || 'DefaultDato'; // Usa el valor ingresado o un valor por defecto
     const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`;
     this.qrCode = url
+
+    // Guarda la asignatura utilizando el servicio
+    const asignaturaData = {
+      nombre: 'Nombre de la asignatura',
+      hora_ini: 'Hora de inicio',
+      hora_ter: 'Hora de fin',
+      dia: 'Día',
+    };
+    this.asignaturaService.guardarAsignatura(this.asignaturaData).subscribe(
+      (asignaturaGuardada) => {
+        console.log('Asignatura guardada con éxito:', asignaturaGuardada);
+      },
+      (error) => {
+        console.error('Error al guardar la asignatura:', error);
+      }
+    );
   }
 }

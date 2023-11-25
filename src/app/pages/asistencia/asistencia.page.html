@@ -8,13 +8,31 @@
 </ion-header>
 
 <ion-content >
-  <ion-list>
-    <ion-item lines="inset">
-      <ion-label position="floating">Ingrese el valor de "data"</ion-label>
-      <ion-input [(ngModel)]="dato"></ion-input>
+  <form (ngSubmit)="generarClase()">
+    <ion-item>
+      <ion-label position="floating">Nombre de la asignatura</ion-label>
+      <ion-input [(ngModel)]="asignaturaData.nombre" name="nombre" required></ion-input>
     </ion-item>
-    <ion-button (click)="generarClase()">Generar QR</ion-button>
-    <ion-img [src]="qrCode"></ion-img>
-  </ion-list>
+
+    <ion-item>
+      <ion-label position="floating">Hora de inicio</ion-label>
+      <ion-input [(ngModel)]="asignaturaData.hora_ini" name="horaInicio" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Hora de fin</ion-label>
+      <ion-input [(ngModel)]="asignaturaData.hora_ter" name="horaFin" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Día</ion-label>
+      <ion-input [(ngModel)]="asignaturaData.dia" name="dia" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Generar QR y Guardar Clase</ion-button>
+  </form>
+
+  <!-- Muestra el código QR -->
+  <ion-img *ngIf="qrCode" [src]="qrCode" alt="Código QR"></ion-img>
   <ion-button size="full" color="warning" (click)="verAsistencia()">Ver Asistencia</ion-button>
 </ion-content>
