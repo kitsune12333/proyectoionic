@@ -27,7 +27,6 @@ export class MiAsistenciaPage implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
 
   message = 'Ingresar asistencia';
-  materia!: string;
   userInfoReceived!: Observable<UserModel>;
   userId!: "";
   users: any[] = [];
@@ -36,7 +35,7 @@ export class MiAsistenciaPage implements OnInit {
     usuario_asist: true,
     id_user: '',
     fecha: '',
-    materia: ''
+    asignatura: ''
 
   };
 
@@ -146,7 +145,6 @@ export class MiAsistenciaPage implements OnInit {
     asistencia.fecha = moment().format('YYYY/MM/DD HH:mm');
     console.log(asistencia.fecha);
     asistencia.usuario_asist = true;
-    this.modal.dismiss(this.materia, 'confirm');
     lastValueFrom(this._asistenciaService.postAsistencia(asistencia));
     this.getasistencias();
     

@@ -23,9 +23,8 @@ export class AsistenciaService {
     return this._httpclient.get<any>(this.URL_SUPABASE+'?*', { headers: this.supabaseheaders})
   }
 
-  postAsistencia(asistenciaModel: AsistenciaModel): Observable<AsistenciaModel[]> {
-    console.log(this.supabaseheaders);
-    return this._httpclient.post<any[]>(this.URL_SUPABASE, asistenciaModel,{ headers: this.supabaseheaders, responseType: 'json' });
+  postAsistencia(asistenciaModel: AsistenciaModel): Observable<AsistenciaModel> {
+    return this._httpclient.post<AsistenciaModel>(this.URL_SUPABASE, asistenciaModel,{ headers: this.supabaseheaders, responseType: 'json' });
   }
 
 }

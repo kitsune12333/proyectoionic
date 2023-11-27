@@ -14,6 +14,7 @@ import { AsistenciaService } from 'src/app/services/asistencia.service';
 
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -37,7 +38,7 @@ export class HomePage implements OnInit {
     usuario_asist: true,
     id_user: '',
     fecha: '',
-    materia: ''
+    asignatura: ''
 
   };
   @ViewChild(IonModal) modal!: IonModal;
@@ -69,17 +70,19 @@ export class HomePage implements OnInit {
     }
     const { barcodes } = await BarcodeScanner.scan();
     this.barcodes.push(...barcodes);
-    console.log(this.barcodes)
+  
+    // Obtener el valor de materia del primer código de barras escaneado
+    const nombre = this.barcodes[0].rawValue;
+    this.asistencia.id_user = this.userId;
+    this.asistencia.fecha = moment().format('YYYY/MM/DD HH:mm'),
+    this.asistencia.usuario_asist = true;
+    this.asistencia.asignatura = nombre;
+    console.log(this.asistencia)
+    lastValueFrom(this._asistenciaservice.postAsistencia(this.asistencia));
   }
-  insertarAsistencia(asistencia: AsistenciaModel) {
-    asistencia.id_user = this.userId;
-    console.log(this.userId);
-    asistencia.fecha = moment().format('YYYY/MM/DD HH:mm');
-    console.log(asistencia.fecha);
-    asistencia.usuario_asist = true;
-    asistencia.materia = ""
-    lastValueFrom(this._asistenciaservice.postAsistencia(asistencia));
-  }
+
+  
+  
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
     return camera === 'granted' || camera === 'limited';

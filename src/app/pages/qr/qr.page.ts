@@ -28,7 +28,8 @@ export class QrPage implements OnInit {
     hora_ter: '',
     dia: '',
     profesor: ''
-  }
+  };
+  selectedClase: any;
 
   constructor(private router: Router, private _usuarioService: UserService,private _asignaturaservice: AsignaturaService) { 
   }
@@ -43,8 +44,9 @@ export class QrPage implements OnInit {
   generarClase(clase: Asignatura) {
 
     console.log(clase);
-    const data = JSON.stringify(clase)|| 'DefaultDato'; // Usa el valor ingresado o un valor por defecto
-    console.log(data);
+     //  const data = JSON.stringify(clase)|| 'DefaultDato'; //Usa el valor ingresado o un valor por defecto
+    const data = clase.nombre
+     console.log(data);
     const url = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`;
     this.qrCode = url
   }
