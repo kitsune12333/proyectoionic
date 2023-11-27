@@ -45,10 +45,17 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'registrar-asistencia',
-    loadChildren: () => import('./pages/registrar-asistencia/registrar-asistencia.module').then( m => m.RegistrarAsistenciaPageModule),
+    path: 'qr',
+    loadChildren: () => import('./pages/qr/qr.module').then( m => m.QrPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'mis-clases',
+    loadChildren: () => import('./pages/mis-clases/mis-clases.module').then( m => m.MisClasesPageModule),
+    canActivate: [AuthGuard]
+  },
+
+  
 
 ];
 

@@ -3,4 +3,5 @@ export interface Asignatura {
     hora_ini: string;
     hora_ter: string;
     dia: string;
+    profesor: string;
 }

@@ -14,6 +14,15 @@ export class AsignaturaService {
 
   constructor(private _httpclient: HttpClient) {}
 
+  getAllAsignaturas(): Observable<any>{
+    return this._httpclient.get<any>(this.URL_SUPABASE+'?*', { headers: this.supabaseheaders})
+  }
+  
+  getAsignaturas(nombre: string): Observable<Asignatura>{
+    return this._httpclient.get<Asignatura>(this.URL_SUPABASE+'?select=*&nombre=eq.'+nombre, { headers: this.supabaseheaders})
+  }
+  
+
   guardarAsignatura(asignatura: Asignatura): Observable<Asignatura> {
     const url = this.URL_SUPABASE;
     return this._httpclient.post<Asignatura>(url, asignatura, { headers: this.supabaseheaders });

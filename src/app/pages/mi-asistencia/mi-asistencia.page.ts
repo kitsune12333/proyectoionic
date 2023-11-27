@@ -24,8 +24,6 @@ import * as moment from 'moment';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class MiAsistenciaPage implements OnInit {
-  isSupported = false;
-  barcodes: Barcode[] = [];
   @ViewChild(IonModal) modal!: IonModal;
 
   message = 'Ingresar asistencia';
@@ -42,16 +40,13 @@ export class MiAsistenciaPage implements OnInit {
 
   };
 
-  constructor(private alertController: AlertController, private router: Router, private _usuarioService: UserService, private _asistenciaService: AsistenciaService) {
+  constructor(private router: Router, private _usuarioService: UserService, private _asistenciaService: AsistenciaService) {
 
   }
   
  
   
   ngOnInit() {
-    BarcodeScanner.isSupported().then((result) => {
-      this.isSupported = result.supported;
-    });
     this.userId = this.router.getCurrentNavigation()?.extras.state?.['userInfo'];
     console.log(this.userId);
     localStorage.setItem("user", this.userId);

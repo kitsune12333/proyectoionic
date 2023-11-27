@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Asistencia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-item *ngFor="let clase of clases">
+      <ion-label>Selecciona una opción:</ion-label>
+      <ion-select (ionChange)="generarClase(clase)">
+        <ion-select-option value="{{ clase }}">{{ clase.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-card>
+
+  <ion-button size="full" color="warning" (click)="generarClase(clase)">qr</ion-button>
+  <ion-img *ngIf="qrCode" [src]="qrCode" alt="Código QR"></ion-img>
+</ion-content>

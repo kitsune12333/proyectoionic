@@ -8,31 +8,29 @@
 </ion-header>
 
 <ion-content >
-  <form (ngSubmit)="generarClase()">
-    <ion-item>
-      <ion-label position="floating">Nombre de la asignatura</ion-label>
-      <ion-input [(ngModel)]="asignaturaData.nombre" name="nombre" required></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Hora de inicio</ion-label>
-      <ion-input [(ngModel)]="asignaturaData.hora_ini" name="horaInicio" required></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Hora de fin</ion-label>
-      <ion-input [(ngModel)]="asignaturaData.hora_ter" name="horaFin" required></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Día</ion-label>
-      <ion-input [(ngModel)]="asignaturaData.dia" name="dia" required></ion-input>
-    </ion-item>
-
-    <ion-button expand="full" type="submit">Generar QR y Guardar Clase</ion-button>
+  <form [formGroup]="classForm" (ngSubmit)="guardarClase()">
+  <ion-card> 
+      <ion-item>
+        <ion-label position="floating">Nombre de la asignatura</ion-label>
+        <ion-input formControlName="nombre" name="nombre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Hora de inicio</ion-label>
+        <ion-input formControlName="hora_ini" name="horaInicio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Hora de fin</ion-label>
+        <ion-input formControlName="hora_ter" name="horaFin"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Día</ion-label>
+        <ion-input formControlName="dia" name="dia"></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Guardar Clase</ion-button>
+  </ion-card>
   </form>
 
   <!-- Muestra el código QR -->
-  <ion-img *ngIf="qrCode" [src]="qrCode" alt="Código QR"></ion-img>
-  <ion-button size="full" color="warning" (click)="verAsistencia()">Ver Asistencia</ion-button>
+  
+  <ion-button size="full" color="warning" (click)="vermisclases()">Ver mis clases</ion-button>
 </ion-content>

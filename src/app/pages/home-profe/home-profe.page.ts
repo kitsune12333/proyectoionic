@@ -66,9 +66,37 @@ export class HomeProfePage implements OnInit {
     )
   }
 
-  nuevaClase(){
-    this.router.navigate(['clases'])
+  qr(){
+    this.userInfoReceived.subscribe(
+      {
+        next: (user) => {
+          console.log(user);
+          if (user) {
+            //EXISTE
+            let userInfoSend: NavigationExtras = {
+              state: {
+                userInfo: user.id
+              }
+            }
+            console.log(userInfoSend);
+            if (user.tipoUsuario == 'profesor') {
+              this.router.navigate(['qr'], userInfoSend)
+            }
+          } else {
+            //NO EXISTE
+            console.log("Error de usuario...");
+          }
+        },
+        error: (err) => {
+
+        },
+        complete: () => {
+
+        }
+      }
+    )
   }
+
 
   lista(){
     console.log(this.userInfoReceived);

@@ -3,7 +3,7 @@
     <ion-button color="warning" slot="start">
 <ion-back-button text=""></ion-back-button>
     </ion-button>
-    <ion-title>Mi Asistencia</ion-title>
+    <ion-title>Mi clase</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -21,14 +21,15 @@
     </ion-list>
     </ion-card>
     <ion-list color="warning">
-      <ion-item *ngFor="let asistencia of asistencias">
+      <ion-item *ngFor="let clase of clases">
         <ion-avatar slot="start">
           <img src="https://duckduckgo.com/i/0d7eda0e.png" alt="">
         </ion-avatar>
         <ion-label>
-          <p>{{ asistencia.id_user }}</p>
-          <p>{{ asistencia.materia }}</p>
-          <p>{{ asistencia.fecha }}</p>
+          <p>{{ clase.nombre }}</p>
+          <p>{{ clase.hora_ini }}</p>
+          <p>{{ clase.hora_ter }}</p>
+          <p>{{ clase.dia }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
